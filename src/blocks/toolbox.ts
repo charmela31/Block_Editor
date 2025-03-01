@@ -63,7 +63,7 @@ export const toolboxConfig = {
     },
     {
       kind: 'category',
-      name: 'Custom',
+      name: 'Print',
       colour: '#745CA6',
       contents: [
         { kind: 'block', type: 'print_output' },

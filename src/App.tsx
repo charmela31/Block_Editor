@@ -29,7 +29,7 @@ function App() {
         },
         zoom: {
           controls: true,
-          wheel: true,
+          wheel: false,
           startScale: 1.0,
           maxScale: 3,
           minScale: 0.3,
@@ -95,7 +95,6 @@ function App() {
       `;
       
       // Execute the code
-      // eslint-disable-next-line no-new-func
       new Function(executableCode)();
       
       setConsoleOutput(outputs.length ? outputs : ['Code executed successfully with no output.']);
