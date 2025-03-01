@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import * as Blockly from 'blockly';
 import { javascriptGenerator } from 'blockly/javascript';
-import { Play, Trash2, Code} from 'lucide-react';
+import { Play, Trash2, Code } from 'lucide-react';
 import { defineBlocks } from './blocks/customBlocks';
 import { toolboxConfig } from './blocks/toolbox';
 
@@ -122,10 +122,11 @@ function App() {
     setShowCode(!showCode);
   };
 
+
   return (
     <div className="flex flex-col h-screen">
       {/* Header */}
-      <header className="bg-gradient-to-r from-teal-600 to-pink-600  text-white p-4 flex justify-between items-center">
+      <header className="bg-gradient-to-r from-teal-600 to-pink-600 text-white p-4 flex justify-between items-center">
         <h1 className="text-2xl font-bold">Blockly Code Editor</h1>
         <div className="flex space-x-2">
           <button 
@@ -148,7 +149,6 @@ function App() {
           </button>
           
          
-          
         </div>
       </header>
 
@@ -186,6 +186,8 @@ function App() {
           </div>
         </div>
       </div>
+
+    
     </div>
   );
 }

@@ -52,10 +52,10 @@ export const toolboxConfig = {
     {
       kind: 'category',
       name: 'Variables',
-      custom: 'VARIABLE', // Enables Blockly’s built-in variable management
+      custom: 'VARIABLE',
       colour: '#A6745C',
       contents: [
-        { kind: 'block', type: 'custom_set_variable' }, // Updated block name
+        { kind: 'block', type: 'custom_set_variable' }, 
         { kind: 'block', type: 'variables_get' },
         { kind: 'block', type: 'variables_change' },
         { kind: 'block', type: 'variables_global' }
@@ -69,34 +69,8 @@ export const toolboxConfig = {
         { kind: 'block', type: 'print_output' },
         { kind: 'block', type: 'input_prompt' },
         { kind: 'block', type: 'alert_block' },
-        { kind: 'block', type: 'timer_block' }
-      ]
-    },
-    {
-      kind: 'category',
-      name: 'Lists',
-      colour: '#68A65C',
-      contents: [
-        { kind: 'block', type: 'lists_create_with' },
-        { kind: 'block', type: 'lists_repeat' },
-        { kind: 'block', type: 'lists_length' },
-        { kind: 'block', type: 'lists_isEmpty' },
-        { kind: 'block', type: 'lists_indexOf' },
-        { kind: 'block', type: 'lists_getIndex' },
-        { kind: 'block', type: 'lists_setIndex' },
-        { kind: 'block', type: 'lists_getSublist' },
-        { kind: 'block', type: 'lists_split' },
-        { kind: 'block', type: 'lists_sort' }
-      ]
-    },
-    {
-      kind: 'category',
-      name: 'Functions',
-      colour: '#A65C5C',
-      contents: [
-        { kind: 'block', type: 'procedures_defnoreturn' },
-        { kind: 'block', type: 'procedures_defreturn' }
       ]
     }
+    
   ]
 };

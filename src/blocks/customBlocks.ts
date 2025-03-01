@@ -3,14 +3,13 @@ import { Block } from 'blockly';
 import { javascriptGenerator } from 'blockly/javascript';
 
 export function defineBlocks() {
-  // 1. Set Variable Block
-  Blockly.Blocks['set_variable'] = {
+  // Custom Set Variable Block
+  Blockly.Blocks['custom_set_variable'] = {
     init: function() {
       this.appendValueInput('VALUE')
           .setCheck(null)
-          .appendField('set variable')
-          .appendField(new Blockly.FieldTextInput('name'), 'VAR_NAME')
-          .appendField('to');
+          .appendField('set')
+          .appendField(new Blockly.FieldVariable('item'), 'VAR');
       this.setPreviousStatement(true, null);
       this.setNextStatement(true, null);
       this.setColour(330);
@@ -19,28 +18,79 @@ export function defineBlocks() {
     }
   };
 
-  javascriptGenerator['set_variable'] = function(block: Block) {
-    const varName = block.getFieldValue('VAR_NAME');
+  javascriptGenerator['custom_set_variable'] = function(block: Block) {
+    const varName = block.getFieldValue('VAR');
     const value = javascriptGenerator.valueToCode(block, 'VALUE', javascriptGenerator.ORDER_ASSIGNMENT) || '0';
     return `let ${varName} = ${value};\n`;
   };
 
-  // Get Variable Block
-  Blockly.Blocks['variables_get'] = {
+  // Variables Change Block
+  Blockly.Blocks['variables_change'] = {
     init: function() {
-      this.appendDummyInput()
-          .appendField('get variable')
-          .appendField(new Blockly.FieldTextInput('name'), 'VAR_NAME');
-      this.setOutput(true, null);
+      this.appendValueInput('DELTA')
+          .setCheck('Number')
+          .appendField('change')
+          .appendField(new Blockly.FieldVariable('item'), 'VAR')
+          .appendField('by');
+      this.setPreviousStatement(true, null);
+      this.setNextStatement(true, null);
       this.setColour(330);
-      this.setTooltip('Get the value of a variable');
+      this.setTooltip('Change a variable by a value');
       this.setHelpUrl('');
     }
   };
 
-  javascriptGenerator['variables_get'] = function(block: Block) {
-    const varName = block.getFieldValue('VAR_NAME');
-    return [varName, javascriptGenerator.ORDER_ATOMIC];
+  javascriptGenerator['variables_change'] = function(block: Block) {
+    const varName = block.getFieldValue('VAR');
+    const delta = javascriptGenerator.valueToCode(block, 'DELTA', javascriptGenerator.ORDER_ADDITION) || '0';
+    
+    // If delta is 1, use i++ syntax
+    if (delta === '1') {
+      return `${varName}++;\n`;
+    } else {
+      return `${varName} = ${varName} + ${delta};\n`;
+    }
+  };
+
+  // Global Variable Declaration
+  Blockly.Blocks['variables_global'] = {
+    init: function() {
+      this.appendValueInput('VALUE')
+          .setCheck(null)
+          .appendField('global variable')
+          .appendField(new Blockly.FieldVariable('item'), 'VAR')
+          .appendField('=');
+      this.setPreviousStatement(true, null);
+      this.setNextStatement(true, null);
+      this.setColour(330);
+      this.setTooltip('Declare a global variable');
+      this.setHelpUrl('');
+    }
+  };
+
+  javascriptGenerator['variables_global'] = function(block: Block) {
+    const varName = block.getFieldValue('VAR');
+    const value = javascriptGenerator.valueToCode(block, 'VALUE', javascriptGenerator.ORDER_ASSIGNMENT) || '0';
+    return `window.${varName} = ${value};\n`;
+  };
+
+  // Increment Block
+  Blockly.Blocks['increment_variable'] = {
+    init: function() {
+      this.appendDummyInput()
+          .appendField('increment')
+          .appendField(new Blockly.FieldVariable('item'), 'VAR');
+      this.setPreviousStatement(true, null);
+      this.setNextStatement(true, null);
+      this.setColour(330);
+      this.setTooltip('Increment a variable by 1');
+      this.setHelpUrl('');
+    }
+  };
+
+  javascriptGenerator['increment_variable'] = function(block: Block) {
+    const varName = block.getFieldValue('VAR');
+    return `${varName}++;\n`;
   };
 
   // 2. Arithmetic Operations Block
@@ -206,10 +256,10 @@ export function defineBlocks() {
     let code;
     switch (operator) {
       case 'EQ':
-        code = `${a} === ${b}`;
+        code = `${a} == ${b}`;
         break;
       case 'NEQ':
-        code = `${a} !== ${b}`;
+        code = `${a} != ${b}`;
         break;
       case 'LT':
         code = `${a} < ${b}`;
@@ -228,5 +278,96 @@ export function defineBlocks() {
     }
     
     return [code, javascriptGenerator.ORDER_RELATIONAL];
+  };
+
+  // Logic boolean block
+  Blockly.Blocks['logic_boolean'] = {
+    init: function() {
+      this.appendDummyInput()
+          .appendField(new Blockly.FieldDropdown([
+            ['true', 'TRUE'],
+            ['false', 'FALSE']
+          ]), 'BOOL');
+      this.setOutput(true, 'Boolean');
+      this.setColour(210);
+      this.setTooltip('Boolean value (true/false)');
+      this.setHelpUrl('');
+    }
+  };
+
+  javascriptGenerator['logic_boolean'] = function(block: Block) {
+    const code = block.getFieldValue('BOOL') === 'TRUE' ? 'true' : 'false';
+    return [code, javascriptGenerator.ORDER_ATOMIC];
+  };
+
+  // Logic operation block (AND, OR)
+  Blockly.Blocks['logic_operation'] = {
+    init: function() {
+      this.appendValueInput('A')
+          .setCheck('Boolean');
+      this.appendValueInput('B')
+          .setCheck('Boolean')
+          .appendField(new Blockly.FieldDropdown([
+            ['and', 'AND'],
+            ['or', 'OR']
+          ]), 'OP');
+      this.setInputsInline(true);
+      this.setOutput(true, 'Boolean');
+      this.setColour(210);
+      this.setTooltip('Logic operations (AND, OR)');
+      this.setHelpUrl('');
+    }
+  };
+
+  javascriptGenerator['logic_operation'] = function(block: Block) {
+    const operator = block.getFieldValue('OP');
+    const a = javascriptGenerator.valueToCode(block, 'A', javascriptGenerator.ORDER_LOGICAL_AND) || 'false';
+    const b = javascriptGenerator.valueToCode(block, 'B', javascriptGenerator.ORDER_LOGICAL_AND) || 'false';
+    
+    let code;
+    if (operator === 'AND') {
+      code = `${a} && ${b}`;
+      return [code, javascriptGenerator.ORDER_LOGICAL_AND];
+    } else {
+      code = `${a} || ${b}`;
+      return [code, javascriptGenerator.ORDER_LOGICAL_OR];
+    }
+  };
+
+  // Alert block
+  Blockly.Blocks['alert_block'] = {
+    init: function() {
+      this.appendValueInput('MESSAGE')
+          .setCheck(null)
+          .appendField('alert');
+      this.setPreviousStatement(true, null);
+      this.setNextStatement(true, null);
+      this.setColour(160);
+      this.setTooltip('Show an alert message');
+      this.setHelpUrl('');
+    }
+  };
+
+  javascriptGenerator['alert_block'] = function(block: Block) {
+    const message = javascriptGenerator.valueToCode(block, 'MESSAGE', javascriptGenerator.ORDER_NONE) || "''";
+    return `alert(${message});\n`;
+  };
+
+  // Input prompt block
+  Blockly.Blocks['input_prompt'] = {
+    init: function() {
+      this.appendValueInput('MESSAGE')
+          .setCheck(null)
+          .appendField('prompt');
+      this.setOutput(true, null);
+      this.setColour(160);
+      this.setTooltip('Get user input with a prompt');
+      this.setHelpUrl('');
+    }
+  };
+
+  javascriptGenerator['input_prompt'] = function(block: Block) {
+    const message = javascriptGenerator.valueToCode(block, 'MESSAGE', javascriptGenerator.ORDER_NONE) || "''";
+    return [`prompt(${message})`, javascriptGenerator.ORDER_FUNCTION_CALL];
   };
 }
