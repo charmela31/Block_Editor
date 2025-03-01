@@ -1,4 +1,5 @@
 Blockly Code Editor 🚀
+
 A visual programming editor built with Blockly, React, and Vite, allowing users to create JavaScript code using blocks and execute it dynamically.
 
 
@@ -6,6 +7,7 @@ A visual programming editor built with Blockly, React, and Vite, allowing users 
 🚀 Installation & Setup
 
 1️⃣ Clone the Repository : 
+
     git clone https://github.com/charmela31/Block_Editor.git
 
     cd Block_Editor
@@ -20,7 +22,9 @@ A visual programming editor built with Blockly, React, and Vite, allowing users 
     npm run dev
 
 
+
 📌 Features
+
 ✅ Drag-and-drop Blockly interface
 
 ✅ Generates JavaScript code in real-time
@@ -30,6 +34,7 @@ A visual programming editor built with Blockly, React, and Vite, allowing users 
 ✅ Responsive UI with Tailwind CSS
 
 ✅ Reset and clear the workspace
+
 
 
 🛠️ Technologies Used
