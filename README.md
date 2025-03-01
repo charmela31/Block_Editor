@@ -4,7 +4,7 @@ A visual programming editor built with Blockly, React, and Vite, allowing users 
 
 
 
-🚀 Installation & Setup
+**🚀 Installation & Setup**
 
 1️⃣ Clone the Repository : 
 
@@ -23,7 +23,7 @@ A visual programming editor built with Blockly, React, and Vite, allowing users 
 
 
 
-📌 Features
+**📌 Features**
 
 ✅ Drag-and-drop Blockly interface
 
@@ -37,7 +37,7 @@ A visual programming editor built with Blockly, React, and Vite, allowing users 
 
 
 
-🛠️ Technologies Used
+**🛠️ Technologies Used**
 
 ✅ React (Frontend framework)
 
