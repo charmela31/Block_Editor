@@ -1,4 +1,4 @@
-Blockly Code Editor 🚀
+**Blockly Code Editor 🚀**
 
 A visual programming editor built with Blockly, React, and Vite, allowing users to create JavaScript code using blocks and execute it dynamically.
 
