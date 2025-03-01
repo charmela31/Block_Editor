@@ -5,8 +5,9 @@ A visual programming editor built with Blockly, React, and Vite, allowing users 
 
 🚀 Installation & Setup
 1️⃣ Clone the Repository : 
-    git clone https://github.com/your-username/blockly-editor.git
-    cd blockly-editor
+    git clone https://github.com/charmela31/Block_Editor.git
+    cd Block_Editor
+    
 
 2️⃣ Install Dependencies
     npm install
